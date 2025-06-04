@@ -12,6 +12,7 @@ def main():
     char_list = DoublyLinkedList()
     print("1. Створено порожній список")
     print(f"   Довжина: {char_list.length()}")
+    print(f"   Вміст: {char_list.to_list()}")
     
     print("\n2. Додавання елементів в кінець:")
     for char in "HELLO":
@@ -23,30 +24,33 @@ def main():
     print(f"   Вставлено 'X' на позицію 0: {char_list.to_list()}")
     char_list.insert('Y', 3)  
     print(f"   Вставлено 'Y' на позицію 3: {char_list.to_list()}")
+    char_list.insert('Z', 7)  
+    print(f"   Вставлено 'Z' на позицію 7: {char_list.to_list()}")
     
     print("\n4. Отримання елементів:")
-    print(f"   Елемент на позиції 0: '{char_list.get(0)}'")
-    print(f"   Елемент на позиції 3: '{char_list.get(3)}'")
+    for i in [0, 3, 7]:
+        print(f"   Елемент на позиції {i}: '{char_list.get(i)}'")
     
     print("\n5. Пошук елементів:")
     print(f"   Перший індекс 'L': {char_list.findFirst('L')}")
     print(f"   Останній індекс 'L': {char_list.findLast('L')}")
-    print(f"   Індекс 'Z' (відсутній): {char_list.findFirst('Z')}")
+    print(f"   Індекс 'A' (відсутній): {char_list.findFirst('A')}")
     
     print("\n6. Видалення за індексом:")
-    deleted = char_list.delete(0)
-    print(f"   Видалено елемент на позиції 0: '{deleted}'")
-    print(f"   Список після видалення: {char_list.to_list()}")
+    print(f"   Видалено елемент на позиції 0: '{char_list.delete(0)}'")
+    print(f"   Список: {char_list.to_list()}")
+    print(f"   Видалено елемент на позиції 2: '{char_list.delete(2)}'")
+    print(f"   Список: {char_list.to_list()}")
+    print(f"   Видалено останній елемент: '{char_list.delete(5)}'")
+    print(f"   Список: {char_list.to_list()}")
     
-    char_list.append('L')
-    char_list.append('L')
-    print(f"\n7. Додано дублікати 'L': {char_list.to_list()}")
-    
+    print("\n7. Видалення всіх 'L':")
     char_list.deleteAll('L')
-    print(f"   Після видалення всіх 'L': {char_list.to_list()}")
+    print(f"   Список після видалення: {char_list.to_list()}")
     
     print("\n8. Копіювання списку:")
     cloned_list = char_list.clone()
+    cloned_list.append('!')
     print(f"   Оригінал: {char_list.to_list()}")
     print(f"   Копія: {cloned_list.to_list()}")
     

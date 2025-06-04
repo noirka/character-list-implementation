@@ -8,7 +8,6 @@ class Node:
 
 
 class DoublyLinkedList:
-    
     def __init__(self):
         self.head = None
         self.tail = None
@@ -38,7 +37,7 @@ class DoublyLinkedList:
             raise ValueError("Element must be a single character")
         
         if index < 0 or index > self._size:
-            raise IndexError("Index out of range")
+            raise IndexError(f"Index {index} out of range [0, {self._size}]")
         
         if index == self._size:
             self.append(element)
@@ -55,16 +54,18 @@ class DoublyLinkedList:
                 self.tail = new_node
         else:
             current = self._get_node_at_index(index)
+            prev_node = current.prev
+            
+            new_node.prev = prev_node
             new_node.next = current
-            new_node.prev = current.prev
-            current.prev.next = new_node
+            prev_node.next = new_node
             current.prev = new_node
         
         self._size += 1
     
     def delete(self, index: int) -> str:
         if index < 0 or index >= self._size:
-            raise IndexError("Index out of range")
+            raise IndexError(f"Index {index} out of range [0, {self._size-1}]")
         
         node_to_delete = self._get_node_at_index(index)
         data = node_to_delete.data
@@ -105,10 +106,8 @@ class DoublyLinkedList:
     
     def get(self, index: int) -> str:
         if index < 0 or index >= self._size:
-            raise IndexError("Index out of range")
-        
-        node = self._get_node_at_index(index)
-        return node.data
+            raise IndexError(f"Index {index} out of range [0, {self._size-1}]")
+        return self._get_node_at_index(index).data
     
     def clone(self):
         new_list = DoublyLinkedList()
@@ -120,11 +119,11 @@ class DoublyLinkedList:
     
     def reverse(self) -> None:
         current = self.head
-        self.head, self.tail = self.tail, self.head
-        
         while current:
-            current.next, current.prev = current.prev, current.next
+            current.prev, current.next = current.next, current.prev
             current = current.prev
+        
+        self.head, self.tail = self.tail, self.head
     
     def findFirst(self, element: str) -> int:
         if not isinstance(element, str) or len(element) != 1:
@@ -166,17 +165,17 @@ class DoublyLinkedList:
             self.append(current.data)
             current = current.next
     
-    def _get_node_at_index(self, index: int):
+    def _get_node_at_index(self, index: int) -> Node:
         if index < 0 or index >= self._size:
-            raise IndexError("Index out of range")
+            raise IndexError(f"Index {index} out of range [0, {self._size-1}]")
         
         if index < self._size // 2:
             current = self.head
-            for i in range(index):
+            for _ in range(index):
                 current = current.next
         else:
             current = self.tail
-            for i in range(self._size - 1 - index):
+            for _ in range(self._size - 1 - index):
                 current = current.prev
         
         return current
@@ -188,3 +187,6 @@ class DoublyLinkedList:
             result.append(current.data)
             current = current.next
         return result
+    
+    def __str__(self) -> str:
+        return str(self.to_list())
